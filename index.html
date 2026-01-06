@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salud Mental para Bailarines | Psic. Kim Zermeño</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cargamos Font Awesome con una versión estable y completa -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --morado: #a07bb5;
+            --crema: #f8eddb;
+            --naranja: #f49b70;
+            --azul: #9bd3dd;
+            --rosa: #fb91a3;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--crema);
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-morado { background-color: var(--morado); }
+        .text-morado { color: var(--morado); }
+        .bg-naranja { background-color: var(--naranja); }
+        .bg-azul { background-color: var(--azul); }
+        .bg-rosa { background-color: var(--rosa); }
+        
+        .logo-container {
+            line-height: 0.9;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--morado);
+        }
+        
+        #mobile-menu {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        #mobile-menu.active {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1.5rem 0;
+            pointer-events: auto;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            letter-spacing: -0.02em;
+        }
+        .brand-sub {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--morado);
+            font-weight: 700;
+            display: block;
+            margin-top: 0.1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navegación -->
+    <nav class="sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- LOGO -->
+            <a href="#inicio" class="flex flex-col logo-container" onclick="handleNavClick(event, 'inicio')">
+                <span class="brand-name">Salud Mental</span>
+                <span class="brand-sub">para bailarines</span>
+            </a>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center space-x-8 font-medium text-xs uppercase tracking-widest text-gray-500">
+                <a href="#inicio" class="nav-link" onclick="handleNavClick(event, 'inicio')">Inicio</a>
+                <a href="#especialidades" class="nav-link" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#sobre-mi" class="nav-link" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
+                <a href="https://wa.me/523312850674" target="_blank" class="bg-morado text-white px-6 py-3 rounded-full hover:shadow-lg hover:shadow-morado/30 transition-all font-bold">Agendar Cita</a>
+            </div>
+
+            <!-- Botón menú móvil -->
+            <button id="menu-btn" class="md:hidden text-morado p-2 focus:outline-none" aria-label="Abrir menú">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Menú móvil desplegable -->
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-50 px-6 shadow-xl">
+            <div class="flex flex-col space-y-4 font-bold text-sm uppercase tracking-widest text-gray-600">
+                <a href="#inicio" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'inicio')">Inicio</a>
+                <a href="#especialidades" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#sobre-mi" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
+                <a href="https://wa.me/523312850674" target="_blank" class="text-morado py-3 font-black">Agendar Cita</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Hero Section -->
+        <header id="inicio" class="relative overflow-hidden pt-16 pb-24 md:pt-32 md:pb-40">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 z-10">
+                    <div class="flex items-center space-x-2 mb-6">
+                        <span class="w-8 h-[2px] bg-rosa"></span>
+                        <span class="text-rosa font-bold text-[10px] uppercase tracking-[0.25em]">Psicología & Movimiento</span>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl mb-6 leading-tight text-gray-900">Tu bienestar es el centro de tu <span class="text-morado italic">danza.</span></h1>
+                    <p class="text-lg text-gray-600 mb-10 max-w-lg leading-relaxed italic">"No hay danza sin salud y no hay salud sin salud mental."</p>
+                    
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="https://wa.me/523312850674" target="_blank" class="bg-morado text-white px-10 py-4 rounded-full text-center font-bold shadow-xl shadow-morado/20 hover:scale-105 transition active:scale-95">
+                            Pedir Informes <i class="fab fa-whatsapp ml-2"></i>
+                        </a>
+                        <a href="#especialidades" onclick="handleNavClick(event, 'especialidades')" class="bg-white text-gray-800 px-10 py-4 rounded-full text-center font-bold border border-gray-100 shadow-sm hover:bg-gray-50 transition">
+                            Explorar Especialidades
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="w-80 h-80 bg-azul rounded-full absolute -top-10 -right-10 opacity-15 blur-3xl"></div>
+                    <div class="w-80 h-80 bg-rosa rounded-full absolute -bottom-10 -left-10 opacity-15 blur-3xl"></div>
+                    <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-200 aspect-[4/5] max-w-sm mx-auto transform hover:scale-[1.01] transition-transform duration-700">
+                        
+                        <!-- IMAGEN 1: AQUÍ VA LA FOTO PRINCIPAL (HERO) -->
+                        <!-- RECOMENDACIÓN: Una foto de una bailarina o algo artístico relacionado con la danza -->
+                        <img src=hero.jpeg alt="[Imagen de bailarina en movimiento]" class="object-cover w-full h-full">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-morado/30 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Especialidades -->
+        <section id="especialidades" class="py-24 bg-white rounded-[3.5rem] shadow-sm scroll-mt-24">
+            <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+                <h2 class="text-4xl md:text-5xl mb-6">Acompañamiento Integral</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Un espacio diseñado para bailarines y artistas que buscan salud emocional.</p>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Ansiedad -->
+                <div class="group p-10 rounded-[2.5rem] bg-crema/40 hover:bg-crema/80 transition-all duration-500">
+                    <div class="w-16 h-16 bg-naranja text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-naranja/30 transform group-hover:rotate-6 transition-transform">
+                        <i class="fa-solid fa-masks-theater text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4 font-bold">Ansiedad Escénica</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">Estrategias para gestionar el miedo al escenario, perfeccionismo y la presión del alto rendimiento.</p>
+                </div>
+                <!-- Card 2: Alimentación -->
+                <div class="group p-10 rounded-[2.5rem] bg-crema/40 hover:bg-crema/80 transition-all duration-500">
+                    <div class="w-16 h-16 bg-rosa text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-rosa/30 transform group-hover:rotate-6 transition-transform">
+                        <i class="fa-solid fa-apple-whole text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4 font-bold">Cuerpo y Alimentación</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">Prevención y acompañamiento en TCA y fortalecimiento de una autoimagen saludable y respetuosa.</p>
+                </div>
+                <!-- Card 3: Autoestima -->
+                <div class="group p-10 rounded-[2.5rem] bg-crema/40 hover:bg-crema/80 transition-all duration-500">
+                    <div class="w-16 h-16 bg-azul text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-azul/30 transform group-hover:rotate-6 transition-transform">
+                        <i class="fa-solid fa-heart-pulse text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4 font-bold">Autoestima y Confianza</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">Psicología deportiva aplicada a la danza para gestionar lesiones, cambios de etapa y autoexigencia.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre Kim -->
+        <section id="sobre-mi" class="py-24 scroll-mt-24">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-azul/20 rounded-[3rem] -rotate-3"></div>
+                        <div class="relative rounded-[2.5rem] overflow-hidden aspect-square shadow-2xl border-8 border-white">
+                            
+                            <!-- IMAGEN 2: AQUÍ VA LA FOTO DE KIM -->
+                            <!-- RECOMENDACIÓN: Una foto profesional de Kim, idealmente con fondo claro -->
+                            <img src=kim.jpeg alt="[Imagen de la Psicóloga Kim Zermeño]" class="w-full h-full object-cover">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl md:text-5xl mb-6">Psic. Kim Zermeño</h2>
+                    <div class="h-1 w-20 bg-morado mb-8"></div>
+                    <div class="space-y-5 text-gray-600 text-lg leading-relaxed">
+                        <p>Soy una psicóloga apasionada por el bienestar integral de los artistas. Entiendo que la danza requiere una disciplina inmensa, pero también una mente resiliente y amable.</p>
+                        <p>Mi enfoque combina la <strong>Terapia Cognitivo Conductual</strong> con una visión <strong>humanista</strong>, creando un proceso de terapia respetuoso y centrado en tus necesidades reales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Corto -->
+        <section class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <span class="text-morado font-bold text-xs uppercase tracking-widest mb-4 inline-block italic">Un espacio para todos</span>
+                <h2 class="text-3xl italic mb-10 text-gray-800">"No solo atiendo a bailarines ni tampoco sólo temas de danza."</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="p-6 bg-crema/30 rounded-2xl border-l-4 border-azul">
+                        <h4 class="font-bold mb-2">¿Cómo son las sesiones?</h4>
+                        <p class="text-sm text-gray-500">Sesiones individuales de 50 minutos, enfocadas en objetivos claros y un trato empático.</p>
+                    </div>
+                    <div class="p-6 bg-crema/30 rounded-2xl border-l-4 border-rosa">
+                        <h4 class="font-bold mb-2">¿Dónde atiendo?</h4>
+                        <p class="text-sm text-gray-500">Presencial en Guadalajara (Zona Tránsito) y modalidad virtual para todo el mundo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contacto" class="py-24 bg-morado text-white rounded-t-[4rem] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-5xl md:text-6xl mb-10 serif text-white">Hablemos de tu bienestar.</h2>
+            <a href="https://wa.me/523312850674" target="_blank" class="inline-block bg-white text-morado px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:bg-crema transition hover:-translate-y-1">
+                Agendar Consulta
+            </a>
+            <div class="mt-20 flex justify-center space-x-8 opacity-70">
+                <a href="https://www.instagram.com/saludmentalparabailarines/?hl=es" target="_blank" class="hover:opacity-100 transition"><i class="fa-brands fa-instagram text-2xl"></i></a>
+                <a href="https://wa.me/523312850674" target="_blank" class="hover:opacity-100 transition"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
+            </div>
+            <div class="mt-12 pt-12 border-t border-white/10 text-[10px] uppercase tracking-widest opacity-40 text-white">
+                &copy; 2026 Kim Zermeño — Guadalajara, Jalisco.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('active');
+        });
+
+        function handleNavClick(event, sectionId) {
+            event.preventDefault();
+            menu.classList.remove('active');
+            
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const navHeight = 80;
+                const sectionTop = section.offsetTop - navHeight;
+                
+                window.scrollTo({
+                    top: sectionTop,
+                    behavior: 'smooth'
+                });
+                history.pushState(null, null, '#' + sectionId);
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
