@@ -1,459 +1,342 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballet Fit by Jen | Estudio en Guadalajara</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Salud Mental para Bailarines | Psic. Kim Zermeño</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Playfair Display -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-    
-    <!-- Icons (Phosphor Icons) -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Playfair Display"', 'serif'],
-                    },
-                    colors: {
-                        brand: {
-                            teal: '#369EAD', 
-                            tealLight: '#EBF5F6', 
-                            dark: '#1A3A3E', 
-                            gold: '#C5A059', 
-                            accent: '#369EAD'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Librería para animaciones al hacer scroll -->
+    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
-        html {
-            scroll-padding-top: 100px;
+        :root {
+            --morado: #a07bb5;
+            --crema: #f8eddb;
+            --naranja: #f49b70;
+            --azul: #9bd3dd;
+            --rosa: #fb91a3;
         }
-
         body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--crema);
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .serif {
             font-family: 'Playfair Display', serif;
         }
-
-        .hero-bg {
-            background-image: linear-gradient(rgba(26, 58, 62, 0.5), rgba(26, 58, 62, 0.4)), url('hero.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
+        .bg-morado { background-color: var(--morado); }
+        .text-morado { color: var(--morado); }
+        .bg-naranja { background-color: var(--naranja); }
+        .bg-azul { background-color: var(--azul); }
+        .bg-rosa { background-color: var(--rosa); }
         
-        .fade-in-up {
-            animation: fadeInUp 1s ease-out;
+        /* Aseguramos visibilidad si JS falla */
+        .reveal, .reveal-left, .reveal-right {
+            opacity: 1;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        /* Animación suave para el menú */
         #mobile-menu {
-            transition: all 0.3s ease-in-out;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        #mobile-menu.active {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1.5rem 0;
+            pointer-events: auto;
         }
 
-        /* Estilos para el Modal del Aviso de Privacidad */
-        #privacy-modal {
-            display: none;
-            backdrop-filter: blur(4px);
+        /* Efecto de elevación en tarjetas */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
-        #privacy-modal.active {
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        /* Galería Interactiva */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 1.5rem;
+            position: relative;
+            cursor: pointer;
+            background-color: #e5e7eb; /* Fallback color */
+        }
+        .gallery-item img {
+            transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1) rotate(1deg);
+        }
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(160, 123, 181, 0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
             display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Botones con brillo */
+        .btn-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.6s;
+        }
+        .btn-shimmer:hover::after {
+            left: 120%;
         }
     </style>
 </head>
-<body class="text-brand-dark antialiased bg-white">
+<body class="antialiased">
 
-    <!-- Navbar -->
-    <nav class="sticky top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#inicio" class="flex items-center gap-3">
-                        <div class="flex flex-col leading-tight">
-                            <span class="text-2xl font-semibold tracking-tight text-brand-teal">Ballet Fit</span>
-                            <span class="text-brand-dark text-sm italic tracking-widest text-right">by Jen</span>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#inicio" class="nav-link text-gray-600 hover:text-brand-teal transition-colors text-sm uppercase tracking-widest font-medium">Inicio</a>
-                    <a href="#sobre-mi" class="nav-link text-gray-600 hover:text-brand-teal transition-colors text-sm uppercase tracking-widest font-medium">Jen</a>
-                    <a href="#metodo" class="nav-link text-gray-600 hover:text-brand-teal transition-colors text-sm uppercase tracking-widest font-medium">Método</a>
-                    <a href="#horarios" class="nav-link text-gray-600 hover:text-brand-teal transition-colors text-sm uppercase tracking-widest font-medium">Horarios</a>
-                    <a href="#contacto" class="nav-link px-6 py-2 bg-brand-dark text-white text-sm uppercase tracking-widest hover:bg-brand-teal transition-colors duration-300 rounded-sm text-center">Reservar</a>
-                </div>
-
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" type="button" class="text-brand-teal hover:text-brand-dark focus:outline-none">
-                        <i class="ph ph-list text-3xl"></i>
-                    </button>
-                </div>
+    <!-- Navegación -->
+    <nav class="sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#inicio" class="flex flex-col" onclick="handleNavClick(event, 'inicio')">
+                <span class="font-serif text-2xl font-bold text-gray-800 leading-none">Salud Mental</span>
+                <span class="text-[0.65rem] uppercase tracking-[0.3em] text-morado font-bold mt-1">para bailarines</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 font-medium text-xs uppercase tracking-widest text-gray-500">
+                <a href="#inicio" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'inicio')">Inicio</a>
+                <a href="#especialidades" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#galeria" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'galeria')">Galería</a>
+                <a href="#sobre-mi" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
+                <a href="https://wa.me/523324388415" target="_blank" class="btn-shimmer bg-morado text-white px-6 py-3 rounded-full hover:shadow-lg transition-all font-bold">Agendar Cita</a>
             </div>
-        </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
-            <div class="px-4 pt-2 pb-6 space-y-2 text-center">
-                <a href="#inicio" class="mobile-nav-link block px-3 py-4 text-gray-600 hover:bg-brand-tealLight hover:text-brand-teal rounded-md text-lg">Inicio</a>
-                <a href="#sobre-mi" class="mobile-nav-link block px-3 py-4 text-gray-600 hover:bg-brand-tealLight hover:text-brand-teal rounded-md text-lg">Jen</a>
-                <a href="#metodo" class="mobile-nav-link block px-3 py-4 text-gray-600 hover:bg-brand-tealLight hover:text-brand-teal rounded-md text-lg">Método</a>
-                <a href="#horarios" class="mobile-nav-link block px-3 py-4 text-gray-600 hover:bg-brand-tealLight hover:text-brand-teal rounded-md text-lg">Horarios</a>
-                <a href="#contacto" class="mobile-nav-link block px-3 py-4 text-brand-teal font-bold text-lg">Reservar Clase</a>
+            <button id="menu-btn" class="md:hidden text-morado p-2 focus:outline-none" aria-label="Menú">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <div id="mobile-menu" class="md:hidden bg-white px-6 shadow-lg">
+            <div class="flex flex-col space-y-4 font-bold text-sm uppercase tracking-widest text-gray-600 py-6">
+                <a href="#inicio" onclick="handleNavClick(event, 'inicio')">Inicio</a>
+                <a href="#especialidades" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#galeria" onclick="handleNavClick(event, 'galeria')">Galería</a>
+                <a href="#sobre-mi" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
             </div>
         </div>
     </nav>
 
-    <!-- Promotional Section -->
-    <section class="py-10 bg-white">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="border-2 border-brand-teal p-1 rounded-sm">
-                <div class="border border-brand-teal/30 p-6 md:p-10 text-center bg-brand-tealLight/20 relative overflow-hidden rounded-sm">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-teal/5 rounded-full"></div>
-                    <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-brand-teal/5 rounded-full"></div>
+    <main>
+        <!-- Hero Section -->
+        <header id="inicio" class="relative overflow-hidden pt-16 pb-24 md:pt-32 md:pb-40">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 z-10 reveal-left">
+                    <div class="flex items-center space-x-2 mb-6">
+                        <span class="w-8 h-[2px] bg-rosa"></span>
+                        <span class="text-rosa font-bold text-[10px] uppercase tracking-[0.25em]">Psicología & Movimiento</span>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl mb-6 leading-tight text-gray-900 font-serif">Tu bienestar es el centro de tu <span class="text-morado italic">danza.</span></h1>
+                    <p class="text-lg text-gray-600 mb-10 max-w-lg leading-relaxed italic">"No hay danza sin salud y no hay salud sin salud mental."</p>
                     
-                    <span class="inline-block px-4 py-1 bg-brand-teal text-white text-[10px] md:text-xs uppercase tracking-[0.2em] mb-4 font-bold rounded-full">Promoción Exclusiva</span>
-                    <h2 class="text-3xl md:text-5xl text-brand-dark mb-4 italic">Precios del 2025</h2>
-                    <p class="text-gray-600 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-                        ¡Comienza tu transformación hoy! Este mes, seguimos respetando los <br class="hidden md:block">
-                        <strong class="text-brand-teal font-bold tracking-tight uppercase">precios del año pasado para que no tengas excusas.</strong>
-                    </p>
-                    <div class="mt-6 flex justify-center gap-2 text-brand-teal">
-                        <i class="ph ph-sparkle text-xl"></i>
-                        <i class="ph ph-sparkle text-xl"></i>
-                        <i class="ph ph-sparkle text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Hero Section -->
-    <header id="inicio" class="relative h-[80vh] flex items-center justify-center hero-bg text-white overflow-hidden">
-        <div class="text-center px-4 max-w-4xl mx-auto fade-in-up relative z-10">
-            <p class="text-sm md:text-base uppercase tracking-[0.3em] mb-4 text-brand-tealLight">Elegancia • Fuerza • Equilibrio</p>
-            <h1 class="text-5xl md:text-7xl mb-6 leading-tight">
-                Donde el Ballet encuentra<br>la fuerza del Fitness
-            </h1>
-            <p class="text-lg md:text-xl font-light mb-10 text-gray-200 max-w-2xl mx-auto">
-                Una fusión técnica para promover la actividad física, la estética y la fuerza a través del movimiento.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#metodo" class="nav-link px-8 py-3 bg-brand-teal text-white uppercase tracking-widest text-sm hover:bg-white hover:text-brand-dark transition-all duration-300 shadow-lg">
-                    Conoce el Método
-                </a>
-                <a href="#contacto" class="nav-link px-8 py-3 border border-white text-white uppercase tracking-widest text-sm hover:bg-white hover:text-brand-dark transition-all duration-300">
-                    Contáctanos
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- About Section -->
-    <section id="sobre-mi" class="py-20 md:py-32 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <div class="w-full md:w-1/2 relative">
-                    <div class="absolute -top-4 -left-4 w-full h-full border-2 border-brand-tealLight z-0"></div>
-                    <img src="jen.jpeg" alt="Bailarina Jen" class="relative z-10 w-full shadow-lg object-cover h-[550px] grayscale hover:grayscale-0 transition-all duration-700">
-                </div>
-                <div class="w-full md:w-1/2">
-                    <span class="text-brand-teal font-bold uppercase tracking-widest text-sm mb-2 block">Directora & Instructora</span>
-                    <h2 class="text-4xl mb-6 text-brand-dark border-b-2 border-brand-tealLight pb-4 inline-block text-balance">Hola, soy Jen</h2>
-                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
-                        Mi vida ha estado dedicada a la danza y el movimiento. Actualmente soy orgullosa bailarina del <strong>Ballet de Jalisco desde el 2025</strong>, continuando una trayectoria que me ha llevado por escenarios internacionales.
-                    </p>
-                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
-                        Fui bailarina en el <strong>Madison Ballet (2021-2023)</strong> y aprendiz en el Ballet de Jalisco (2017-2019). Mi formación técnica me permite hoy ofrecer un método preciso y efectivo.
-                    </p>
-                    <p class="text-gray-600 mb-8 leading-relaxed text-lg">
-                        A través de <strong>Ballet Fit by Jen</strong>, fusiono la disciplina técnica del ballet con el acondicionamiento físico para ofrecerte un entrenamiento que fortalece tu cuerpo y eleva tu confianza.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Method & Classes -->
-    <section id="metodo" class="py-20 bg-brand-tealLight/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="text-brand-teal font-bold uppercase tracking-widest text-sm">Técnica & Movimiento</span>
-                <h2 class="text-4xl mt-2 text-brand-dark">¿Qué es Ballet Fit?</h2>
-                <p class="max-w-2xl mx-auto mt-4 text-gray-600 text-lg px-4 italic">
-                    Es un entrenamiento completo de fuerza y resistencia que combina el pilates y el entrenamiento funcional.
-                </p>
-                <div class="w-24 h-1 bg-brand-teal mx-auto mt-8"></div>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 px-4">
-                <div class="bg-white p-6 rounded-sm shadow-sm border-t-4 border-brand-teal text-center hover:shadow-md transition-shadow">
-                    <div class="text-brand-teal text-4xl mb-3"><i class="ph ph-barbell"></i></div>
-                    <h4 class="font-bold mb-2">Polainas o Mancuernas</h4>
-                    <p class="text-sm text-gray-500">Para agregar resistencia y tonificar.</p>
-                </div>
-                <div class="bg-white p-6 rounded-sm shadow-sm border-t-4 border-brand-teal text-center hover:shadow-md transition-shadow">
-                    <div class="text-brand-teal text-4xl mb-3"><i class="ph ph-waves"></i></div>
-                    <h4 class="font-bold mb-2">Liga de Resistencia</h4>
-                    <p class="text-sm text-gray-500">Trabajo profundo y elongación.</p>
-                </div>
-                <div class="bg-white p-6 rounded-sm shadow-sm border-t-4 border-brand-teal text-center hover:shadow-md transition-shadow">
-                    <div class="text-brand-teal text-4xl mb-3"><i class="ph ph-rug"></i></div>
-                    <h4 class="font-bold mb-2">Tapete de pilates</h4>
-                    <p class="text-sm text-gray-500">Tu espacio personal de trabajo.</p>
-                </div>
-                <div class="bg-white p-6 rounded-sm shadow-sm border-t-4 border-brand-teal text-center hover:shadow-md transition-shadow">
-                    <div class="text-brand-teal text-4xl mb-3"><i class="ph ph-heart-beat"></i></div>
-                    <h4 class="font-bold mb-2">Cardio & Fuerza</h4>
-                    <p class="text-sm text-gray-500">Mejora tu condición física general.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Schedule / Pricing Preview -->
-    <section id="horarios" class="py-20 bg-white">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h3 class="text-4xl text-brand-dark mb-2">Planes y Horarios 2026</h3>
-                <div class="w-16 h-1 bg-brand-teal mx-auto"></div>
-            </div>
-            
-            <div class="flex flex-col md:flex-row gap-12">
-                <!-- Schedule -->
-                <div class="flex-1">
-                    <h3 class="text-2xl mb-8 border-l-4 border-brand-teal pl-4 text-brand-dark italic">Horarios de Clase</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                            <span class="text-brand-dark font-bold block text-lg">Lunes</span>
-                            <span class="text-gray-600 font-medium bg-brand-tealLight px-3 py-1 rounded-full text-sm">7:00 pm - 8:00 pm</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                            <span class="text-brand-dark font-bold block text-lg">Miércoles</span>
-                            <span class="text-gray-600 font-medium bg-brand-tealLight px-3 py-1 rounded-full text-sm">7:00 pm - 8:00 pm</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                            <span class="text-brand-dark font-bold block text-lg">Viernes</span>
-                            <span class="text-gray-600 font-medium bg-brand-tealLight px-3 py-1 rounded-full text-sm">7:00 pm - 8:00 pm</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                            <span class="text-brand-dark font-bold block text-lg">Sábado</span>
-                            <span class="text-gray-600 font-medium bg-brand-tealLight px-3 py-1 rounded-full text-sm">9:00 am - 10:00 am</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pricing -->
-                <div class="flex-1 bg-brand-tealLight/30 p-8 rounded-lg border border-brand-tealLight shadow-sm">
-                    <h3 class="text-2xl mb-8 text-center text-brand-dark italic font-semibold">Membresías Mensuales</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-brand-teal/10 pb-2">
-                            <span class="font-medium">4 clases por semana</span>
-                            <span class="text-xl text-brand-teal font-bold">$850</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-brand-teal/10 pb-2">
-                            <span class="font-medium">3 clases por semana</span>
-                            <span class="text-xl text-brand-teal font-bold">$720</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-brand-teal/10 pb-2">
-                            <span class="font-medium">2 clases por semana</span>
-                            <span class="text-xl text-brand-teal font-bold">$620</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-brand-teal/10 pb-2">
-                            <span class="font-medium">1 clase por semana</span>
-                            <span class="text-xl text-brand-teal font-bold">$450</span>
-                        </div>
-                        <div class="flex justify-between items-center pt-2">
-                            <span class="font-medium italic">Clase suelta</span>
-                            <span class="text-xl text-brand-dark font-bold">$150</span>
-                        </div>
-                        <a href="https://wa.me/3331844195" target="_blank" class="block w-full text-center mt-8 bg-brand-teal text-white py-4 font-bold text-sm uppercase tracking-widest hover:bg-brand-dark transition-all shadow-md">
-                            Reservar mi Lugar
+                    <div class="flex">
+                        <a href="https://wa.me/523324388415" target="_blank" class="btn-shimmer bg-morado text-white px-10 py-4 rounded-full text-center font-bold shadow-xl shadow-morado/20 hover:scale-105 transition active:scale-95">
+                            Pedir Informes <i class="fab fa-whatsapp ml-2"></i>
                         </a>
                     </div>
                 </div>
+                <div class="md:w-1/2 relative reveal-right">
+                    <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-200 aspect-[4/5] max-w-sm mx-auto transform transition-transform duration-700 hover:rotate-1">
+                        <img src="hero.jpeg" alt="[Imagen de bailarina en movimiento]" class="object-cover w-full h-full scale-105 hover:scale-100 transition-transform duration-1000">
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </header>
+
+        <!-- Especialidades -->
+        <section id="especialidades" class="py-24 bg-white rounded-[3.5rem] shadow-sm scroll-mt-24 relative z-10">
+            <div class="max-w-7xl mx-auto px-6 text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl mb-6 font-serif">Acompañamiento Integral</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Un espacio diseñado para bailarines y artistas que buscan salud emocional.</p>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="reveal group p-10 rounded-[2.5rem] bg-crema/40 hover-lift">
+                    <div class="w-16 h-16 bg-naranja text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-naranja/30 transform group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-masks-theater text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4 font-bold font-serif">Ansiedad Escénica</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Estrategias para gestionar el miedo al escenario, perfeccionismo y la presión del alto rendimiento.</p>
+                </div>
+                <div class="reveal group p-10 rounded-[2.5rem] bg-crema/40 hover-lift">
+                    <div class="w-16 h-16 bg-rosa text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-rosa/30 transform group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-apple-whole text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4 font-bold font-serif">Cuerpo y Alimentación</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Prevención y acompañamiento en TCA y fortalecimiento de una autoimagen saludable y respetuosa.</p>
+                </div>
+                <div class="reveal group p-10 rounded-[2.5rem] bg-crema/40 hover-lift">
+                    <div class="w-16 h-16 bg-azul text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-azul/30 transform group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-heart-pulse text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-4 font-bold font-serif">Autoestima y Confianza</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Psicología deportiva aplicada a la danza para gestionar lesiones y cambios de etapa profesional.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galería -->
+        <section id="galeria" class="py-24 scroll-mt-24">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 reveal">
+                    <div class="text-left">
+                        <span class="text-naranja font-bold text-[10px] uppercase tracking-[0.25em] mb-2 block">Creciendo juntos</span>
+                        <h2 class="text-4xl md:text-5xl font-serif">Comunidad y Talleres</h2>
+                    </div>
+                    <p class="text-gray-500 max-w-sm italic">"Momentos compartidos en charlas, talleres y el día a día."</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria1.jpeg" alt="[Kim dando una plática]" onerror="this.src='https://images.unsplash.com/photo-1544531585-9847b68c8c86?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Charlas</span></div>
+                    </div>
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria2.jpeg" alt="[Bailarines felices]" onerror="this.src='https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Comunidad</span></div>
+                    </div>
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria3.jpeg" alt="[Kim con niñas bailarinas]" onerror="this.src='https://images.unsplash.com/photo-1535525153412-5a42439a210d?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Inspiración</span></div>
+                    </div>
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria4.jpeg" alt="[Conexión y aprendizaje]" onerror="this.src='https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Aprendizaje</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre Kim -->
+        <section id="sobre-mi" class="py-24 scroll-mt-24 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-16 items-center">
+                <div class="md:w-1/2 reveal-left">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-azul/20 rounded-[3rem] -rotate-3 scale-95"></div>
+                        <div class="relative rounded-[2.5rem] overflow-hidden aspect-square shadow-2xl border-8 border-white group bg-gray-200">
+                            <img src="kim.jpeg" alt="[Psicóloga Kim Zermeño]" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 reveal-right">
+                    <h2 class="text-4xl md:text-5xl mb-6 font-serif">Psic. Kim Zermeño</h2>
+                    <div class="h-1 w-20 bg-morado mb-8"></div>
+                    <div class="space-y-5 text-gray-600 text-lg leading-relaxed">
+                        <p>Soy una psicóloga apasionada por el bienestar integral de los artistas. Entiendo que la danza requiere una disciplina inmensa, pero también un vínculo sano con el cuerpo y las emociones.</p>
+                        <p>Mi enfoque combina la <strong>Terapia Cognitivo Conductual</strong> con una visión <strong>humanista</strong>, creando un proceso de terapia respetuoso y centrado en ti.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ / Info -->
+        <section class="py-20 bg-white reveal relative z-10">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <h2 class="text-3xl italic mb-10 text-gray-800 font-serif">"Un espacio para todos, más allá de la danza."</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="p-8 bg-crema/30 rounded-3xl border-l-8 border-azul hover:bg-crema/50 transition-colors">
+                        <h4 class="font-bold mb-2">¿Cómo son las sesiones?</h4>
+                        <p class="text-sm text-gray-500">Sesiones individuales de 50 a 60 minutos, enfocadas en objetivos claros y un trato empático.</p>
+                    </div>
+                    <div class="p-8 bg-crema/30 rounded-3xl border-l-8 border-rosa hover:bg-crema/50 transition-colors">
+                        <h4 class="font-bold mb-2">¿Dónde atiendo?</h4>
+                        <p class="text-sm text-gray-500">Presencial en Guadalajara (Zona Tránsito) y modalidad virtual para todo el mundo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer id="contacto" class="bg-brand-tealLight/40 pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
-                
-                <div class="col-span-1">
-                    <h3 class="text-2xl font-bold mb-4 text-brand-teal">Ballet Fit <span class="text-brand-dark italic font-normal">by Jen</span></h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-6">
-                        Un espacio dedicado a la conexión cuerpo-mente a través del movimiento consciente y el acondicionamiento integral.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="https://www.instagram.com/balletfitbyjen/" target="_blank" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors shadow-sm">
-                            <i class="ph ph-instagram-logo text-xl"></i>
-                        </a>
-                        <a href="https://wa.me/3331844195" target="_blank" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-teal hover:bg-brand-teal hover:text-white transition-colors shadow-sm">
-                            <i class="ph ph-whatsapp-logo text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-span-1">
-                    <h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-brand-teal">Ubicación</h4>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <i class="ph ph-map-pin text-brand-teal text-xl mr-3 mt-1"></i>
-                            <span class="text-gray-600 text-sm">Av. de los Científicos 659,<br>Colonia Colinas de la Normal,<br>Guadalajara, Jalisco.</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-span-1 bg-white p-6 shadow-sm rounded-sm text-center">
-                    <h4 class="text-xl mb-4 text-brand-dark">¿List@ para empezar?</h4>
-                    <p class="text-gray-500 text-sm mb-6">Agenda tu clase de prueba vía WhatsApp o Instagram.</p>
-                    <div class="flex flex-col gap-3">
-                        <a href="https://wa.me/3331844195" target="_blank" class="bg-brand-teal text-white py-3 font-bold text-xs uppercase tracking-widest hover:bg-brand-dark transition-colors rounded-sm">
-                            WhatsApp
-                        </a>
-                        <a href="https://www.instagram.com/balletfitbyjen/" target="_blank" class="border border-brand-teal text-brand-teal py-3 font-bold text-xs uppercase tracking-widest hover:bg-brand-teal hover:text-white transition-colors rounded-sm">
-                            Instagram
-                        </a>
-                    </div>
-                </div>
-
+    <footer id="contacto" class="py-24 bg-morado text-white rounded-t-[4rem] relative overflow-hidden z-20">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center reveal">
+            <h2 class="text-5xl md:text-6xl mb-10 font-serif text-white">Hablemos de tu bienestar.</h2>
+            <a href="https://wa.me/523324388415" target="_blank" class="inline-block bg-white text-morado px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:bg-crema transition-all hover:-translate-y-2">
+                Agendar Consulta
+            </a>
+            <div class="mt-20 flex justify-center space-x-8">
+                <a href="https://www.instagram.com/saludmentalparabailarines/?hl=es" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/30 hover:bg-white hover:text-morado transition-all"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="https://wa.me/523324388415" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/30 hover:bg-white hover:text-morado transition-all"><i class="fa-brands fa-whatsapp text-xl"></i></a>
             </div>
-
-            <div class="border-t border-brand-tealLight pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest">&copy; 2026 Ballet Fit by Jen. Guadalajara, Jalisco.</p>
-                <button id="open-privacy" class="text-[10px] text-brand-teal uppercase tracking-widest font-bold hover:underline">Aviso de Privacidad</button>
+            <div class="mt-12 pt-12 border-t border-white/10 text-[10px] uppercase tracking-widest opacity-40">
+                &copy; 2026 Kim Zermeño — Guadalajara, Jalisco.
             </div>
         </div>
     </footer>
 
-    <!-- Modal de Aviso de Privacidad -->
-    <div id="privacy-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-brand-dark/80">
-        <div class="bg-white w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-sm shadow-2xl p-8 md:p-12 relative">
-            <button id="close-privacy" class="absolute top-6 right-6 text-2xl text-gray-400 hover:text-brand-dark">
-                <i class="ph ph-x"></i>
-            </button>
-            
-            <h2 class="text-3xl text-brand-dark mb-6 italic">Aviso de Privacidad</h2>
-            
-            <div class="space-y-6 text-gray-600 text-sm leading-relaxed text-justify">
-                <p><strong>Ballet Fit by Jen</strong>, con domicilio en Guadalajara, Jalisco, es responsable del tratamiento de sus datos personales conforme a lo establecido en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p>
-                
-                <div>
-                    <h3 class="font-bold text-brand-teal uppercase tracking-widest text-xs mb-2">1. Datos Recabados</h3>
-                    <p>Para efectos de inscripción y seguimiento personalizado, recabamos: Nombre completo, número de WhatsApp, rango de edad, nivel de actividad física, hábitos diarios, objetivos personales y, en su caso, información sensible referente a lesiones o condiciones físicas previas que debamos conocer para su seguridad durante la práctica.</p>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-brand-teal uppercase tracking-widest text-xs mb-2">2. Finalidad del Tratamiento</h3>
-                    <p>Sus datos serán utilizados exclusivamente para: (a) Agendar y confirmar sus clases; (b) Adaptar los ejercicios a su condición física y prevenir lesiones; (c) Mantener comunicación sobre cambios en horarios o promociones; (d) Fines estadísticos internos sobre el origen de nuestras alumnas.</p>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-brand-teal uppercase tracking-widest text-xs mb-2">3. Transferencia y Seguridad</h3>
-                    <p>Le informamos que sus datos personales no serán compartidos, vendidos ni transferidos a terceros ajenos a la operación de <strong>Ballet Fit by Jen</strong>. Contamos con medidas de seguridad técnicas para proteger su información contra daño, pérdida o acceso no autorizado.</p>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-brand-teal uppercase tracking-widest text-xs mb-2">4. Derechos ARCO</h3>
-                    <p>Usted tiene derecho a conocer qué datos tenemos de usted, para qué los utilizamos y las condiciones del uso que les damos (Acceso). Asimismo, es su derecho solicitar la corrección de su información (Rectificación); que la eliminemos de nuestros registros (Cancelación); o bien, oponerse al uso de sus datos para fines específicos (Oposición). Para ejercer estos derechos, puede contactarnos directamente vía WhatsApp.</p>
-                </div>
-
-                <p class="pt-4 border-t border-gray-100 italic text-[11px]">Última actualización: Enero 2026.</p>
-            </div>
-            
-            <div class="mt-8">
-                <button id="close-privacy-btn" class="w-full bg-brand-dark text-white py-3 uppercase tracking-widest text-xs font-bold hover:bg-brand-teal transition-colors rounded-sm">Entendido</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/3331844195" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-        <i class="ph ph-whatsapp-logo text-3xl"></i>
-    </a>
-
     <script>
-        // Logica Menu Movil
-        const btn = document.getElementById('mobile-menu-btn');
+        // Inicialización segura de ScrollReveal
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const sr = ScrollReveal({
+                    distance: '40px',
+                    duration: 1000,
+                    delay: 100,
+                    reset: false,
+                    viewFactor: 0.2
+                });
+
+                sr.reveal('.reveal', { origin: 'bottom', interval: 150 });
+                sr.reveal('.reveal-left', { origin: 'left', distance: '60px' });
+                sr.reveal('.reveal-right', { origin: 'right', distance: '60px' });
+            } catch (e) {
+                console.warn('ScrollReveal no pudo cargarse, mostrando contenido estático.');
+            }
+        });
+
+        // Lógica del menú móvil
+        const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
 
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            menu.classList.toggle('hidden');
+            menu.classList.toggle('active');
         });
 
-        // Logica Navegación Smooth
-        const handleNavigation = (e) => {
-            const href = e.currentTarget.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const element = document.getElementById(targetId);
-                
-                if (element) {
-                    menu.classList.add('hidden');
-                    window.scrollTo({
-                        top: element.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                    window.history.pushState(null, null, href);
-                }
+        function handleNavClick(event, sectionId) {
+            event.preventDefault();
+            menu.classList.remove('active');
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const navHeight = 80;
+                window.scrollTo({
+                    top: section.offsetTop - navHeight,
+                    behavior: 'smooth'
+                });
             }
-        };
+        }
 
-        document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-            link.addEventListener('click', handleNavigation);
-        });
-
-        // Logica Modal Privacidad
-        const openPrivacy = document.getElementById('open-privacy');
-        const closePrivacy = document.getElementById('close-privacy');
-        const closePrivacyBtn = document.getElementById('close-privacy-btn');
-        const privacyModal = document.getElementById('privacy-modal');
-
-        const toggleModal = () => privacyModal.classList.toggle('active');
-
-        openPrivacy.addEventListener('click', toggleModal);
-        closePrivacy.addEventListener('click', toggleModal);
-        closePrivacyBtn.addEventListener('click', toggleModal);
-
-        // Cerrar modal al hacer click fuera
-        privacyModal.addEventListener('click', (e) => {
-            if (e.target === privacyModal) toggleModal();
-        });
-
-        // Navbar Shadow
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 30) {
-                navbar.classList.add('shadow-md');
-            } else {
-                navbar.classList.remove('shadow-md');
-            }
-        });
+        // Cerrar menú al hacer click fuera
+        document.addEventListener('click', () => menu.classList.remove('active'));
     </script>
 </body>
 </html>
