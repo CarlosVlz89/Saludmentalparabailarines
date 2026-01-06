@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salud Mental para Bailarines | Psic. Kim Zermeño</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cargamos Font Awesome con una versión estable y completa -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Librería para animaciones al hacer scroll -->
+    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
         :root {
             --morado: #a07bb5;
@@ -32,17 +33,12 @@
         .bg-azul { background-color: var(--azul); }
         .bg-rosa { background-color: var(--rosa); }
         
-        .logo-container {
-            line-height: 0.9;
+        /* Aseguramos visibilidad si JS falla */
+        .reveal, .reveal-left, .reveal-right {
+            opacity: 1;
         }
 
-        .nav-link {
-            transition: all 0.3s ease;
-        }
-        .nav-link:hover {
-            color: var(--morado);
-        }
-        
+        /* Animación suave para el menú */
         #mobile-menu {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             max-height: 0;
@@ -57,34 +53,64 @@
             pointer-events: auto;
         }
 
-        .brand-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #2d2d2d;
-            letter-spacing: -0.02em;
+        /* Efecto de elevación en tarjetas */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
         }
-        .brand-sub {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--morado);
-            font-weight: 700;
-            display: block;
-            margin-top: 0.1rem;
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
-        /* Estilo para la galería */
+        /* Galería Interactiva */
         .gallery-item {
             overflow: hidden;
             border-radius: 1.5rem;
             position: relative;
+            cursor: pointer;
+            background-color: #e5e7eb; /* Fallback color */
         }
         .gallery-item img {
-            transition: transform 0.5s ease;
+            transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .gallery-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(1deg);
+        }
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(160, 123, 181, 0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Botones con brillo */
+        .btn-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.6s;
+        }
+        .btn-shimmer:hover::after {
+            left: 120%;
         }
     </style>
 </head>
@@ -93,174 +119,155 @@
     <!-- Navegación -->
     <nav class="sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- LOGO -->
-            <a href="#inicio" class="flex flex-col logo-container" onclick="handleNavClick(event, 'inicio')">
-                <span class="brand-name">Salud Mental</span>
-                <span class="brand-sub">para bailarines</span>
+            <a href="#inicio" class="flex flex-col" onclick="handleNavClick(event, 'inicio')">
+                <span class="font-serif text-2xl font-bold text-gray-800 leading-none">Salud Mental</span>
+                <span class="text-[0.65rem] uppercase tracking-[0.3em] text-morado font-bold mt-1">para bailarines</span>
             </a>
             
-            <!-- Desktop Links -->
             <div class="hidden md:flex items-center space-x-8 font-medium text-xs uppercase tracking-widest text-gray-500">
-                <a href="#inicio" class="nav-link" onclick="handleNavClick(event, 'inicio')">Inicio</a>
-                <a href="#especialidades" class="nav-link" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
-                <a href="#galeria" class="nav-link" onclick="handleNavClick(event, 'galeria')">Galería</a>
-                <a href="#sobre-mi" class="nav-link" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
-                <a href="https://wa.me/523312850674" target="_blank" class="bg-morado text-white px-6 py-3 rounded-full hover:shadow-lg hover:shadow-morado/30 transition-all font-bold">Agendar Cita</a>
+                <a href="#inicio" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'inicio')">Inicio</a>
+                <a href="#especialidades" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#galeria" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'galeria')">Galería</a>
+                <a href="#sobre-mi" class="hover:text-morado transition-colors" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
+                <a href="https://wa.me/523312850674" target="_blank" class="btn-shimmer bg-morado text-white px-6 py-3 rounded-full hover:shadow-lg transition-all font-bold">Agendar Cita</a>
             </div>
 
-            <!-- Botón menú móvil -->
-            <button id="menu-btn" class="md:hidden text-morado p-2 focus:outline-none" aria-label="Abrir menú">
+            <button id="menu-btn" class="md:hidden text-morado p-2 focus:outline-none" aria-label="Menú">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
         
-        <!-- Menú móvil desplegable -->
-        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-50 px-6 shadow-xl">
-            <div class="flex flex-col space-y-4 font-bold text-sm uppercase tracking-widest text-gray-600">
-                <a href="#inicio" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'inicio')">Inicio</a>
-                <a href="#especialidades" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
-                <a href="#galeria" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'galeria')">Galería</a>
-                <a href="#sobre-mi" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
-                <a href="https://wa.me/523312850674" target="_blank" class="text-morado py-3 font-black">Agendar Cita</a>
+        <div id="mobile-menu" class="md:hidden bg-white px-6 shadow-lg">
+            <div class="flex flex-col space-y-4 font-bold text-sm uppercase tracking-widest text-gray-600 py-6">
+                <a href="#inicio" onclick="handleNavClick(event, 'inicio')">Inicio</a>
+                <a href="#especialidades" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#galeria" onclick="handleNavClick(event, 'galeria')">Galería</a>
+                <a href="#sobre-mi" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
             </div>
         </div>
     </nav>
 
-    <!-- Contenido Principal -->
     <main>
         <!-- Hero Section -->
         <header id="inicio" class="relative overflow-hidden pt-16 pb-24 md:pt-32 md:pb-40">
             <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-12 md:mb-0 z-10">
+                <div class="md:w-1/2 mb-12 md:mb-0 z-10 reveal-left">
                     <div class="flex items-center space-x-2 mb-6">
                         <span class="w-8 h-[2px] bg-rosa"></span>
                         <span class="text-rosa font-bold text-[10px] uppercase tracking-[0.25em]">Psicología & Movimiento</span>
                     </div>
-                    <h1 class="text-5xl md:text-7xl mb-6 leading-tight text-gray-900">Tu bienestar es el centro de tu <span class="text-morado italic">danza.</span></h1>
+                    <h1 class="text-5xl md:text-7xl mb-6 leading-tight text-gray-900 font-serif">Tu bienestar es el centro de tu <span class="text-morado italic">danza.</span></h1>
                     <p class="text-lg text-gray-600 mb-10 max-w-lg leading-relaxed italic">"No hay danza sin salud y no hay salud sin salud mental."</p>
                     
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="https://wa.me/523312850674" target="_blank" class="bg-morado text-white px-10 py-4 rounded-full text-center font-bold shadow-xl shadow-morado/20 hover:scale-105 transition active:scale-95">
+                    <div class="flex">
+                        <a href="https://wa.me/523312850674" target="_blank" class="btn-shimmer bg-morado text-white px-10 py-4 rounded-full text-center font-bold shadow-xl shadow-morado/20 hover:scale-105 transition active:scale-95">
                             Pedir Informes <i class="fab fa-whatsapp ml-2"></i>
-                        </a>
-                        <a href="#especialidades" onclick="handleNavClick(event, 'especialidades')" class="bg-white text-gray-800 px-10 py-4 rounded-full text-center font-bold border border-gray-100 shadow-sm hover:bg-gray-50 transition">
-                            Explorar Especialidades
                         </a>
                     </div>
                 </div>
-                <div class="md:w-1/2 relative">
-                    <div class="w-80 h-80 bg-azul rounded-full absolute -top-10 -right-10 opacity-15 blur-3xl"></div>
-                    <div class="w-80 h-80 bg-rosa rounded-full absolute -bottom-10 -left-10 opacity-15 blur-3xl"></div>
-                    <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-200 aspect-[4/5] max-w-sm mx-auto transform hover:scale-[1.01] transition-transform duration-700">
-                        <!-- FOTO PRINCIPAL -->
-                        <img src="hero.jpeg" alt="[Imagen de bailarina en movimiento]" class="object-cover w-full h-full">
-                        <div class="absolute inset-0 bg-gradient-to-t from-morado/30 to-transparent"></div>
+                <div class="md:w-1/2 relative reveal-right">
+                    <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-200 aspect-[4/5] max-w-sm mx-auto transform transition-transform duration-700 hover:rotate-1">
+                        <img src="hero.jpeg" alt="[Imagen de bailarina en movimiento]" class="object-cover w-full h-full scale-105 hover:scale-100 transition-transform duration-1000">
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- Especialidades -->
-        <section id="especialidades" class="py-24 bg-white rounded-[3.5rem] shadow-sm scroll-mt-24">
-            <div class="max-w-7xl mx-auto px-6 text-center mb-16">
-                <h2 class="text-4xl md:text-5xl mb-6">Acompañamiento Integral</h2>
+        <section id="especialidades" class="py-24 bg-white rounded-[3.5rem] shadow-sm scroll-mt-24 relative z-10">
+            <div class="max-w-7xl mx-auto px-6 text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl mb-6 font-serif">Acompañamiento Integral</h2>
                 <p class="text-gray-500 max-w-2xl mx-auto">Un espacio diseñado para bailarines y artistas que buscan salud emocional.</p>
             </div>
             <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1: Ansiedad -->
-                <div class="group p-10 rounded-[2.5rem] bg-crema/40 hover:bg-crema/80 transition-all duration-500">
-                    <div class="w-16 h-16 bg-naranja text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-naranja/30 transform group-hover:rotate-6 transition-transform">
+                <div class="reveal group p-10 rounded-[2.5rem] bg-crema/40 hover-lift">
+                    <div class="w-16 h-16 bg-naranja text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-naranja/30 transform group-hover:rotate-12 transition-transform">
                         <i class="fa-solid fa-masks-theater text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl mb-4 font-bold">Ansiedad Escénica</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">Estrategias para gestionar el miedo al escenario, perfeccionismo y la presión del alto rendimiento.</p>
+                    <h3 class="text-2xl mb-4 font-bold font-serif">Ansiedad Escénica</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Estrategias para gestionar el miedo al escenario, perfeccionismo y la presión del alto rendimiento.</p>
                 </div>
-                <!-- Card 2: Alimentación -->
-                <div class="group p-10 rounded-[2.5rem] bg-crema/40 hover:bg-crema/80 transition-all duration-500">
-                    <div class="w-16 h-16 bg-rosa text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-rosa/30 transform group-hover:rotate-6 transition-transform">
+                <div class="reveal group p-10 rounded-[2.5rem] bg-crema/40 hover-lift">
+                    <div class="w-16 h-16 bg-rosa text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-rosa/30 transform group-hover:rotate-12 transition-transform">
                         <i class="fa-solid fa-apple-whole text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl mb-4 font-bold">Cuerpo y Alimentación</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">Prevención y acompañamiento en TCA y fortalecimiento de una autoimagen saludable y respetuosa.</p>
+                    <h3 class="text-2xl mb-4 font-bold font-serif">Cuerpo y Alimentación</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Prevención y acompañamiento en TCA y fortalecimiento de una autoimagen saludable y respetuosa.</p>
                 </div>
-                <!-- Card 3: Autoestima -->
-                <div class="group p-10 rounded-[2.5rem] bg-crema/40 hover:bg-crema/80 transition-all duration-500">
-                    <div class="w-16 h-16 bg-azul text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-azul/30 transform group-hover:rotate-6 transition-transform">
+                <div class="reveal group p-10 rounded-[2.5rem] bg-crema/40 hover-lift">
+                    <div class="w-16 h-16 bg-azul text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-azul/30 transform group-hover:rotate-12 transition-transform">
                         <i class="fa-solid fa-heart-pulse text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl mb-4 font-bold">Autoestima y Confianza</h3>
-                    <p class="text-gray-600 leading-relaxed text-sm">Psicología deportiva aplicada a la danza para gestionar lesiones, cambios de etapa y autoexigencia.</p>
+                    <h3 class="text-2xl mb-4 font-bold font-serif">Autoestima y Confianza</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Psicología deportiva aplicada a la danza para gestionar lesiones y cambios de etapa profesional.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Galería Breve -->
+        <!-- Galería -->
         <section id="galeria" class="py-24 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 reveal">
                     <div class="text-left">
                         <span class="text-naranja font-bold text-[10px] uppercase tracking-[0.25em] mb-2 block">Creciendo juntos</span>
-                        <h2 class="text-4xl md:text-5xl">Comunidad y Talleres</h2>
+                        <h2 class="text-4xl md:text-5xl font-serif">Comunidad y Talleres</h2>
                     </div>
-                    <p class="text-gray-500 max-w-sm italic">"Momentos compartidos en charlas, talleres y el día a día con el talento del mañana."</p>
+                    <p class="text-gray-500 max-w-sm italic">"Momentos compartidos en charlas, talleres y el día a día."</p>
                 </div>
                 
-                <!-- Grid de Galería Ajustado a 4 imágenes -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <!-- FOTO: Kim dando una plática -->
-                    <div class="gallery-item aspect-square bg-gray-200">
-                        <img src="galeria1.jpeg" alt="[Kim dando una plática sobre salud mental]" class="w-full h-full object-cover">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria1.jpeg" alt="[Kim dando una plática]" onerror="this.src='https://images.unsplash.com/photo-1544531585-9847b68c8c86?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Charlas</span></div>
                     </div>
-                    <!-- FOTO: Grupo de bailarines felices -->
-                    <div class="gallery-item aspect-square bg-gray-200">
-                        <img src="galeria2.jpeg" alt="[Grupo de bailarines sonriendo después de un taller]" class="w-full h-full object-cover">
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria2.jpeg" alt="[Bailarines felices]" onerror="this.src='https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Comunidad</span></div>
                     </div>
-                    <!-- FOTO: Kim trabajando con niñas bailarinas -->
-                    <div class="gallery-item aspect-square bg-gray-200">
-                        <img src="galeria3.jpeg" alt="[Kim trabajando con un grupo de pequeñas bailarinas]" class="w-full h-full object-cover">
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria3.jpeg" alt="[Kim con niñas bailarinas]" onerror="this.src='https://images.unsplash.com/photo-1535525153412-5a42439a210d?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Inspiración</span></div>
                     </div>
-                    <!-- FOTO: Cuarta imagen (adicional) -->
-                    <div class="gallery-item aspect-square bg-gray-200">
-                        <img src="galeria4.jpeg" alt="[Momentos de conexión y aprendizaje en danza]" class="w-full h-full object-cover">
+                    <div class="reveal gallery-item aspect-square shadow-lg">
+                        <img src="galeria4.jpeg" alt="[Conexión y aprendizaje]" onerror="this.src='https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?q=80&w=400'">
+                        <div class="gallery-overlay"><span class="text-white text-xs font-bold uppercase tracking-widest">Aprendizaje</span></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Sobre Kim -->
-        <section id="sobre-mi" class="py-24 scroll-mt-24">
+        <section id="sobre-mi" class="py-24 scroll-mt-24 overflow-hidden">
             <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-16 items-center">
-                <div class="md:w-1/2">
+                <div class="md:w-1/2 reveal-left">
                     <div class="relative">
-                        <div class="absolute -inset-4 bg-azul/20 rounded-[3rem] -rotate-3"></div>
-                        <div class="relative rounded-[2.5rem] overflow-hidden aspect-square shadow-2xl border-8 border-white">
-                            <!-- FOTO DE KIM -->
-                            <img src="kim.jpeg" alt="[Imagen de la Psicóloga Kim Zermeño]" class="w-full h-full object-cover">
+                        <div class="absolute -inset-4 bg-azul/20 rounded-[3rem] -rotate-3 scale-95"></div>
+                        <div class="relative rounded-[2.5rem] overflow-hidden aspect-square shadow-2xl border-8 border-white group bg-gray-200">
+                            <img src="kim.jpeg" alt="[Psicóloga Kim Zermeño]" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000">
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/2">
-                    <h2 class="text-4xl md:text-5xl mb-6">Psic. Kim Zermeño</h2>
+                <div class="md:w-1/2 reveal-right">
+                    <h2 class="text-4xl md:text-5xl mb-6 font-serif">Psic. Kim Zermeño</h2>
                     <div class="h-1 w-20 bg-morado mb-8"></div>
                     <div class="space-y-5 text-gray-600 text-lg leading-relaxed">
-                        <p>Soy una psicóloga apasionada por el bienestar integral de los artistas. Entiendo que la danza requiere una disciplina inmensa, pero también una mente resiliente y amable.</p>
-                        <p>Mi enfoque combina la <strong>Terapia Cognitivo Conductual</strong> con una visión <strong>humanista</strong>, creando un proceso de terapia respetuoso y centrado en tus necesidades reales.</p>
+                        <p>Soy una psicóloga apasionada por el bienestar integral de los artistas. Entiendo que la danza requiere una disciplina inmensa, pero también una mente resiliente.</p>
+                        <p>Mi enfoque combina la <strong>Terapia Cognitivo Conductual</strong> con una visión <strong>humanista</strong>, creando un proceso de terapia respetuoso y centrado en ti.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ Corto -->
-        <section class="py-20 bg-white">
+        <!-- FAQ / Info -->
+        <section class="py-20 bg-white reveal relative z-10">
             <div class="max-w-4xl mx-auto px-6 text-center">
-                <span class="text-morado font-bold text-xs uppercase tracking-widest mb-4 inline-block italic">Un espacio para todos</span>
-                <h2 class="text-3xl italic mb-10 text-gray-800">"No solo atiendo a bailarines ni tampoco sólo temas de danza."</h2>
+                <h2 class="text-3xl italic mb-10 text-gray-800 font-serif">"Un espacio para todos, más allá de la danza."</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                    <div class="p-6 bg-crema/30 rounded-2xl border-l-4 border-azul">
+                    <div class="p-8 bg-crema/30 rounded-3xl border-l-8 border-azul hover:bg-crema/50 transition-colors">
                         <h4 class="font-bold mb-2">¿Cómo son las sesiones?</h4>
                         <p class="text-sm text-gray-500">Sesiones individuales de 50 minutos, enfocadas en objetivos claros y un trato empático.</p>
                     </div>
-                    <div class="p-6 bg-crema/30 rounded-2xl border-l-4 border-rosa">
+                    <div class="p-8 bg-crema/30 rounded-3xl border-l-8 border-rosa hover:bg-crema/50 transition-colors">
                         <h4 class="font-bold mb-2">¿Dónde atiendo?</h4>
                         <p class="text-sm text-gray-500">Presencial en Guadalajara (Zona Tránsito) y modalidad virtual para todo el mundo.</p>
                     </div>
@@ -270,23 +277,43 @@
     </main>
 
     <!-- Footer -->
-    <footer id="contacto" class="py-24 bg-morado text-white rounded-t-[4rem] relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
-            <h2 class="text-5xl md:text-6xl mb-10 serif text-white">Hablemos de tu bienestar.</h2>
-            <a href="https://wa.me/523312850674" target="_blank" class="inline-block bg-white text-morado px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:bg-crema transition hover:-translate-y-1">
+    <footer id="contacto" class="py-24 bg-morado text-white rounded-t-[4rem] relative overflow-hidden z-20">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center reveal">
+            <h2 class="text-5xl md:text-6xl mb-10 font-serif text-white">Hablemos de tu bienestar.</h2>
+            <a href="https://wa.me/523312850674" target="_blank" class="inline-block bg-white text-morado px-12 py-5 rounded-full font-bold text-xl shadow-2xl hover:bg-crema transition-all hover:-translate-y-2">
                 Agendar Consulta
             </a>
-            <div class="mt-20 flex justify-center space-x-8 opacity-70">
-                <a href="https://www.instagram.com/saludmentalparabailarines/?hl=es" target="_blank" class="hover:opacity-100 transition"><i class="fa-brands fa-instagram text-2xl"></i></a>
-                <a href="https://wa.me/523312850674" target="_blank" class="hover:opacity-100 transition"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
+            <div class="mt-20 flex justify-center space-x-8">
+                <a href="https://www.instagram.com/saludmentalparabailarines/?hl=es" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/30 hover:bg-white hover:text-morado transition-all"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="https://wa.me/523312850674" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/30 hover:bg-white hover:text-morado transition-all"><i class="fa-brands fa-whatsapp text-xl"></i></a>
             </div>
-            <div class="mt-12 pt-12 border-t border-white/10 text-[10px] uppercase tracking-widest opacity-40 text-white">
+            <div class="mt-12 pt-12 border-t border-white/10 text-[10px] uppercase tracking-widest opacity-40">
                 &copy; 2026 Kim Zermeño — Guadalajara, Jalisco.
             </div>
         </div>
     </footer>
 
     <script>
+        // Inicialización segura de ScrollReveal
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const sr = ScrollReveal({
+                    distance: '40px',
+                    duration: 1000,
+                    delay: 100,
+                    reset: false,
+                    viewFactor: 0.2
+                });
+
+                sr.reveal('.reveal', { origin: 'bottom', interval: 150 });
+                sr.reveal('.reveal-left', { origin: 'left', distance: '60px' });
+                sr.reveal('.reveal-right', { origin: 'right', distance: '60px' });
+            } catch (e) {
+                console.warn('ScrollReveal no pudo cargarse, mostrando contenido estático.');
+            }
+        });
+
+        // Lógica del menú móvil
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
 
@@ -298,25 +325,18 @@
         function handleNavClick(event, sectionId) {
             event.preventDefault();
             menu.classList.remove('active');
-            
             const section = document.getElementById(sectionId);
             if (section) {
                 const navHeight = 80;
-                const sectionTop = section.offsetTop - navHeight;
-                
                 window.scrollTo({
-                    top: sectionTop,
+                    top: section.offsetTop - navHeight,
                     behavior: 'smooth'
                 });
-                history.pushState(null, null, '#' + sectionId);
             }
         }
 
-        document.addEventListener('click', (e) => {
-            if (!menu.contains(e.target) && !btn.contains(e.target)) {
-                menu.classList.remove('active');
-            }
-        });
+        // Cerrar menú al hacer click fuera
+        document.addEventListener('click', () => menu.classList.remove('active'));
     </script>
 </body>
 </html>
