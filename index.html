@@ -6,7 +6,7 @@
     <title>Salud Mental para Bailarines | Psic. Kim Zermeño</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Cargamos Font Awesome con una versión estable y completa -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -73,6 +73,19 @@
             display: block;
             margin-top: 0.1rem;
         }
+
+        /* Estilo para la galería */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 1.5rem;
+            position: relative;
+        }
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -90,6 +103,7 @@
             <div class="hidden md:flex items-center space-x-8 font-medium text-xs uppercase tracking-widest text-gray-500">
                 <a href="#inicio" class="nav-link" onclick="handleNavClick(event, 'inicio')">Inicio</a>
                 <a href="#especialidades" class="nav-link" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#galeria" class="nav-link" onclick="handleNavClick(event, 'galeria')">Galería</a>
                 <a href="#sobre-mi" class="nav-link" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
                 <a href="https://wa.me/523312850674" target="_blank" class="bg-morado text-white px-6 py-3 rounded-full hover:shadow-lg hover:shadow-morado/30 transition-all font-bold">Agendar Cita</a>
             </div>
@@ -105,6 +119,7 @@
             <div class="flex flex-col space-y-4 font-bold text-sm uppercase tracking-widest text-gray-600">
                 <a href="#inicio" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'inicio')">Inicio</a>
                 <a href="#especialidades" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'especialidades')">Especialidades</a>
+                <a href="#galeria" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'galeria')">Galería</a>
                 <a href="#sobre-mi" class="mobile-link py-3 border-b border-gray-50" onclick="handleNavClick(event, 'sobre-mi')">Sobre mí</a>
                 <a href="https://wa.me/523312850674" target="_blank" class="text-morado py-3 font-black">Agendar Cita</a>
             </div>
@@ -137,11 +152,8 @@
                     <div class="w-80 h-80 bg-azul rounded-full absolute -top-10 -right-10 opacity-15 blur-3xl"></div>
                     <div class="w-80 h-80 bg-rosa rounded-full absolute -bottom-10 -left-10 opacity-15 blur-3xl"></div>
                     <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-200 aspect-[4/5] max-w-sm mx-auto transform hover:scale-[1.01] transition-transform duration-700">
-                        
-                        <!-- IMAGEN 1: AQUÍ VA LA FOTO PRINCIPAL (HERO) -->
-                        <!-- RECOMENDACIÓN: Una foto de una bailarina o algo artístico relacionado con la danza -->
-                        <img src=hero.jpeg alt="[Imagen de bailarina en movimiento]" class="object-cover w-full h-full">
-                        
+                        <!-- FOTO PRINCIPAL -->
+                        <img src="hero.jpeg" alt="[Imagen de bailarina en movimiento]" class="object-cover w-full h-full">
                         <div class="absolute inset-0 bg-gradient-to-t from-morado/30 to-transparent"></div>
                     </div>
                 </div>
@@ -182,6 +194,39 @@
             </div>
         </section>
 
+        <!-- Galería Breve -->
+        <section id="galeria" class="py-24 scroll-mt-24">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                    <div class="text-left">
+                        <span class="text-naranja font-bold text-[10px] uppercase tracking-[0.25em] mb-2 block">Creciendo juntos</span>
+                        <h2 class="text-4xl md:text-5xl">Comunidad y Talleres</h2>
+                    </div>
+                    <p class="text-gray-500 max-w-sm italic">"Momentos compartidos en charlas, talleres y el día a día con el talento del mañana."</p>
+                </div>
+                
+                <!-- Grid de Galería Ajustado a 4 imágenes -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- FOTO: Kim dando una plática -->
+                    <div class="gallery-item aspect-square bg-gray-200">
+                        <img src="galeria1.jpeg" alt="[Kim dando una plática sobre salud mental]" class="w-full h-full object-cover">
+                    </div>
+                    <!-- FOTO: Grupo de bailarines felices -->
+                    <div class="gallery-item aspect-square bg-gray-200">
+                        <img src="galeria2.jpeg" alt="[Grupo de bailarines sonriendo después de un taller]" class="w-full h-full object-cover">
+                    </div>
+                    <!-- FOTO: Kim trabajando con niñas bailarinas -->
+                    <div class="gallery-item aspect-square bg-gray-200">
+                        <img src="galeria3.jpeg" alt="[Kim trabajando con un grupo de pequeñas bailarinas]" class="w-full h-full object-cover">
+                    </div>
+                    <!-- FOTO: Cuarta imagen (adicional) -->
+                    <div class="gallery-item aspect-square bg-gray-200">
+                        <img src="galeria4.jpeg" alt="[Momentos de conexión y aprendizaje en danza]" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Sobre Kim -->
         <section id="sobre-mi" class="py-24 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-16 items-center">
@@ -189,11 +234,8 @@
                     <div class="relative">
                         <div class="absolute -inset-4 bg-azul/20 rounded-[3rem] -rotate-3"></div>
                         <div class="relative rounded-[2.5rem] overflow-hidden aspect-square shadow-2xl border-8 border-white">
-                            
-                            <!-- IMAGEN 2: AQUÍ VA LA FOTO DE KIM -->
-                            <!-- RECOMENDACIÓN: Una foto profesional de Kim, idealmente con fondo claro -->
-                            <img src=kim.jpeg alt="[Imagen de la Psicóloga Kim Zermeño]" class="w-full h-full object-cover">
-                            
+                            <!-- FOTO DE KIM -->
+                            <img src="kim.jpeg" alt="[Imagen de la Psicóloga Kim Zermeño]" class="w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
