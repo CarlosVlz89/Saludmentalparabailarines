@@ -68,7 +68,7 @@
             border-radius: 1.5rem;
             position: relative;
             cursor: pointer;
-            background-color: #e5e7eb; /* Fallback color */
+            background-color: #e5e7eb;
         }
         .gallery-item img, .gallery-item video {
             transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
@@ -217,8 +217,9 @@
                 </div>
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <!-- Elemento 1: Video Vertical -->
+                    <!-- Elemento 1: Video Vertical con refuerzo de Autoplay -->
                     <div class="reveal gallery-item aspect-[9/16] md:aspect-square shadow-lg">
+                        <!-- Añadimos playsinline y nos aseguramos de que muted esté presente -->
                         <video autoplay muted loop playsinline class="w-full h-full object-cover">
                             <source src="galeria1.mp4" type="video/mp4">
                             [Video de Kim trabajando]
